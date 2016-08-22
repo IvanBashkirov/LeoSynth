@@ -1,0 +1,59 @@
+<!-- 
+This shall be a therminvox virtual synth. The basic functions of it will be:
+
+Change pitch/volume by moving a mouse up-down/left-right
+Change a root note/range
+lock into a scale.
+Perhaps have a couple different sound presets. 
+Maybe a basic animation?
+Several people can play at the same time (several therminvoxes).
+fx/filters with different rooting options.
+
+
+Interface components:
+
+Theremin operates inside a control area
+Drop down menu for the root note
+Drop down menu for the range. -- Potentially range input.
+Choose a scale.
+Sound preset buttons.
+Basic animation for buttons.
+fx/filters UI looking as a patch-cord panel.
+
+
+
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Mr.Leo
+        </title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        
+    </head>
+    <body>
+        <h1>Mr.Leo</h1>
+        <div id="theremincontrol">
+            <!-- TODO: find and insert an image of the theremin.-->
+            
+        </div>
+        <label for="choose-root">
+        Root
+        </label>
+        <select id="choose-root">
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>     
+        </select>
+        <label for="choose-range">Range</label>
+        <input id="choose-range" name="choose-range" 
+               type="range" min="1" max="88">
+        <label for="sound-presets">Presets</label>
+        <radiogroup id="sound-presets">
+            <input type="radio" checked name="sound" value="square">
+            <input type="radio" checked name="sound" value="sine">
+            <input type="radio" checked name="sound" value="saw">
+        </radiogroup>        
+    </body>
+</html>
