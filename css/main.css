@@ -2,7 +2,13 @@
 #theremincontrol {
     width: 700px;
     height:700px;
-    background-color:aqua
+    background: repeating-linear-gradient(
+        to right,
+        aqua,
+        aqua 26px,
+        cadetBlue 26px,
+        cadetBlue 52px
+    );
 }
 
 #thereminPic {
