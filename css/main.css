@@ -1,7 +1,7 @@
 
 #theremincontrol {
-    width: 700px;
-    height:700px;
+    width: 900px;
+    height:600px;
     background: repeating-linear-gradient(
         to right,
         aqua,
@@ -13,5 +13,5 @@
 
 #thereminPic {
     display:block;
-    width: 700px;
+    width: 900px;
 }
