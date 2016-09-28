@@ -10,29 +10,70 @@ $(document).ready(function() {
     oscillator.frequency.value = 440; // value in hertz
     oscillator.connect(volume);
     volume.connect(audioCtx.destination);
-    volume.gain.value = 0.1;
+    volume.gain.value = 0;
     oscillator.start();
     
-    var timer = setTimeout(function() {
-        oscillator.stop();
-    }, 10000);
+    var mute = true;
+    var isOscOn = false;
     
+    var controlArea = {
+        height: $('#theremincontrol').height(),
+        width: $('#theremincontrol').width()
+    };
+    
+    function getVol(y) {
+        return (controlArea.height-y)/controlArea.height;
+    }
+    
+    function getFreq(x) {
+        return 440*Math.pow(2,x/312)-13;
+    }
     
     $('#theremincontrol').on("mousemove",function(e) {
-        var x = e.offsetX;
-        var y = e.offsetY;
         
+        if (mute || !isOscOn) return;
         
-        oscillator.frequency.value = 440*Math.pow(2,x/312)-13;
-        volume.gain.value = (600-y)/600;/*700-cntrl area height*/
+        oscillator.frequency.value = getFreq(e.offsetX);
+        volume.gain.value = getVol(e.offsetY);/*700-cntrl area height*/
         
-        console.log(x + ', '+ y + ', ' + oscillator.frequency.value);
+        console.log(e.offsetX + ', '+ e.offsetY + ', ' + oscillator.frequency.value);
         
     });
+    
+    $('#theremincontrol').on("mousedown",function(e) {
+        
+        if (!isOscOn) return;
+        volumeVal = volume.gain.value;
+        volume.gain.value = 0;
+        mute = true;
+    });
+    
+    $('#theremincontrol').on("mouseup",function(e) {
+        
+        if (!isOscOn) return;
+        volume.gain.value = getVol(e.offsetY);
+        oscillator.frequency.value = getFreq(e.offsetX);
+        mute = false;        
+    });
+                             
     
     $('#sound-presets').change(function() {
         
         oscillator.type = ($('input[name=sound]:checked').val());
         
+    });
+    
+    $('#onButton').click(function(e) {
+        
+        if (isOscOn) {
+            volume.gain.value = 0;
+            mute = true;
+            isOscOn = false;
+        }
+        else {
+            volume.gain.value=getVol(e.offsetY);
+            mute = false;
+            isOscOn = true;
+        }
     });
 })
