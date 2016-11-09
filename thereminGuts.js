@@ -7,23 +7,24 @@ $(document).ready(function () {
     width: $tCon.width()
   };
 
+  var octave = 4;
   var root = 440;
   var halfNoteWidth = 0;
   var octaveWidth = 0;
 
   var pitches = {
-    C: 65.41,
-    Csh: 69.3,
-    D: 73.42,
-    Dsh: 77.78,
-    E: 82.41,
-    F: 87.31,
-    Fsh: 92.5,
-    G: 98,
-    Gsh: 103.83,
-    A: 110,
-    Ash: 116.54,
-    B: 123.47
+    C: 32.703,
+    Csh: 34.648,
+    D: 36.708,
+    Dsh: 38.891,
+    E: 41.203,
+    F: 43.654,
+    Fsh: 46.249,
+    G: 48.999,
+    Gsh: 51.913,
+    A: 55,
+    Ash: 58.27,
+    B: 61.735
   };
 
   function setFreqScale() {
@@ -39,9 +40,10 @@ $(document).ready(function () {
   }
 
   function setRoot() {
-    root = pitches[$('#choose-root').val()]
+    root = pitches[$('#choose-root').val()]*Math.pow(2,($('#choose-octave').val()-1));
   }
 
+                                                     
   setFreqScale();
   setRoot();
 
@@ -128,8 +130,8 @@ $(document).ready(function () {
 
 
   $('#choose-range').change(setFreqScale);
-
   $('#choose-root').change(setRoot);
+  $('#choose-octave').change(setRoot);
 
 
 

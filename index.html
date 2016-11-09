@@ -33,8 +33,6 @@ fx/filters UI looking as a patch-cord panel.
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <!--        <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>-->
 
-
-
 </head>
 
 <body>
@@ -56,12 +54,21 @@ fx/filters UI looking as a patch-cord panel.
     <option value="Fsh">F#</option>
     <option value="G">G</option>
     <option value="Gsh">G#</option>
-    <option value="A">A</option>
+    <option value="A" selected>A</option>
     <option value="Ash">A#</option>
     <option value="B">B</option>
   </select>
+  <label for="choose-octave">
+    Octave
+  </label>
+  <select id="choose-octave">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4" selected>4</option>
+    <option value="5">5</option>
+  </select>
   <label for="choose-range">Range</label>
-  <input id="choose-range" name="choose-range" type="number" value="18" min="13" max="49">
+  <input id="choose-range" name="choose-range" type="number" value="25" min="13" max="49">
   <label for="sound-presets">Presets</label>
   <radiogroup id="sound-presets">
     <input type="radio" name="sound" value="square">Square
