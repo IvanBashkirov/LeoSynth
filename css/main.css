@@ -5,9 +5,9 @@
     background: repeating-linear-gradient(
         to right,
         aqua,
-        aqua 26px,
-        cadetBlue 26px,
-        cadetBlue 52px
+        aqua 4%,
+        cadetBlue 4%,
+        cadetBlue 8%
     );
     position:relative;
 }
@@ -26,4 +26,8 @@
     position:absolute;
     bottom:5.1%;
     
+}
+
+body {
+    margin: 0;
 }

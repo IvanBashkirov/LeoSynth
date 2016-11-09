@@ -25,40 +25,53 @@ fx/filters UI looking as a patch-cord panel.
 -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Mr.Leo
-        </title>
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-        <script src="thereminGuts.js" type="text/javascript"></script>
-        <script src = "node_modules/tone/build/Tone.min.js" type="text/javascript"></script>
 
-    </head>
-    <body>
-        <h1>Mr.Leo</h1>
-        <div id="theremincontrol" draggable="false">
-            <img id = "thereminPic" src = "images/leo-test-01a-post.png" alt="ThereminPicture" draggable="false">
-            <div id="onButton"></div>
-        </div>
-        <label for="choose-root">
-        Root
-        </label>
-        <select id="choose-root">
-            <option value="C">C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>     
-            <option value="F">F</option>  
-            <option value="G">G</option>  
-        </select>
-        <label for="choose-range">Range</label>
-        <input id="choose-range" name="choose-range"
-               type="range" min="1" max="88">
-        <label for="sound-presets">Presets</label>
-        <radiogroup id="sound-presets">
-            <input type="radio"  name="sound" value="square">Square
-            <input type="radio" checked name="sound" value="sine">Sine
-            <input type="radio"  name="sound" value="sawtooth">Saw
-        </radiogroup>
-    </body>
+<head>
+  <title>
+    Mr.Leo
+  </title>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!--        <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>-->
+
+
+
+</head>
+
+<body>
+  <h1>Mr.Leo</h1>
+  <div id="theremincontrol" draggable="false">
+    <img id="thereminPic" src="images/leo-test-01a-post.png" alt="ThereminPicture" draggable="false">
+    <div id="onButton"></div>
+  </div>
+  <label for="choose-root">
+    Root
+  </label>
+  <select id="choose-root">
+    <option value="C">C</option>
+    <option value="Csh">C#</option>
+    <option value="D">D</option>
+    <option value="Dsh">D#</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="Fsh">F#</option>
+    <option value="G">G</option>
+    <option value="Gsh">G#</option>
+    <option value="A">A</option>
+    <option value="Ash">A#</option>
+    <option value="B">B</option>
+  </select>
+  <label for="choose-range">Range</label>
+  <input id="choose-range" name="choose-range" type="number" value="18" min="13" max="49">
+  <label for="sound-presets">Presets</label>
+  <radiogroup id="sound-presets">
+    <input type="radio" name="sound" value="square">Square
+    <input type="radio" checked name="sound" value="sine">Sine
+    <input type="radio" name="sound" value="sawtooth">Saw
+  </radiogroup>
+
+  <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
+  <script src="thereminGuts.js" type="text/javascript"></script>
+  <script src="node_modules/tone/build/Tone.min.js" type="text/javascript"></script>
+</body>
+
 </html>

@@ -1,79 +1,136 @@
+$(document).ready(function () {
+  var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
 
-$(document).ready(function() {
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var $tCon = $('#theremincontrol');
+  var controlArea = {
+    height: $tCon.height(),
+    width: $tCon.width()
+  };
 
-    // create Oscillator node
-    var oscillator = audioCtx.createOscillator();
-    var volume = audioCtx.createGain();
+  var root = 440;
+  var halfNoteWidth = 0;
+  var octaveWidth = 0;
 
-    oscillator.type = 'sine';
-    oscillator.frequency.value = 440; // value in hertz
-    oscillator.connect(volume);
-    volume.connect(audioCtx.destination);
+  var pitches = {
+    C: 65.41,
+    Csh: 69.3,
+    D: 73.42,
+    Dsh: 77.78,
+    E: 82.41,
+    F: 87.31,
+    Fsh: 92.5,
+    G: 98,
+    Gsh: 103.83,
+    A: 110,
+    Ash: 116.54,
+    B: 123.47
+  };
+
+  function setFreqScale() {
+    var numNotes = $('#choose-range').val();
+    var noteWidth = controlArea.width / numNotes;
+    var noteWidthRat = 100 / numNotes;
+    halfNoteWidth = noteWidth / 2;
+    octaveWidth = noteWidth * 12;
+    var gradient = 'repeating-linear-gradient(to right, aqua, aqua ' + noteWidthRat + '% ,cadetBlue ' + noteWidthRat + '%,cadetBlue ' + (2 * (noteWidthRat)) + '%)';
+    $tCon.css({
+      'background': gradient
+    });
+  }
+
+  function setRoot() {
+    root = pitches[$('#choose-root').val()]
+  }
+
+  setFreqScale();
+  setRoot();
+
+  // create Oscillator node
+  var oscillator = audioCtx.createOscillator();
+  var volume = audioCtx.createGain();
+  oscillator.type = 'sine';
+  oscillator.frequency.value = root; // value in hertz
+  oscillator.connect(volume);
+  volume.connect(audioCtx.destination);
+  volume.gain.value = 0;
+  oscillator.start();
+
+  var muted = true;
+  var isOscOn = false;
+
+
+  function turnOn(offsetX, offsetY) {
+    oscillator.frequency.value = getFreq(offsetX);
+    volume.gain.value = getVol(offsetY);
+    muted = false;
+    isOscOn = true;
+  }
+
+  function turnOff() {
     volume.gain.value = 0;
-    oscillator.start();
-    
-    var mute = true;
-    var isOscOn = false;
-    
-    var controlArea = {
-        height: $('#theremincontrol').height(),
-        width: $('#theremincontrol').width()
-    };
-    
-    function getVol(y) {
-        return (controlArea.height-y)/controlArea.height;
+    muted = true;
+    isOscOn = false;
+  }
+
+  function mute() {
+    volume.gain.value = 0;
+    muted = true;
+  }
+
+  function unmute(offsetX, offsetY) {
+    oscillator.frequency.value = getFreq(offsetX);
+    volume.gain.value = getVol(offsetY);
+    muted = false;
+  }
+
+  function getVol(y) {
+    return (controlArea.height - y) / controlArea.height;
+  }
+
+  function getFreq(x) {
+    return root * Math.pow(2, (x - halfNoteWidth) / octaveWidth);
+  }
+
+  //  play
+  $tCon.on("mousemove", function (e) {
+    if (muted) return;
+
+    oscillator.frequency.value = getFreq(e.clientX - $(this).offset().left);
+    volume.gain.value = getVol(e.clientY - $(this).offset().top);
+
+    console.log(e.clientX + ', ' + e.clientY + ', ' + oscillator.frequency.value);
+  });
+
+  //  mute
+  $tCon.on("mousedown", function (e) {
+    if (isOscOn) mute();
+  });
+
+  $tCon.on("mouseup", function (e) {
+    if (isOscOn) {
+      unmute(e.clientX - $tCon.offset().left, e.clientY - $tCon.offset().top);
     }
-    
-    function getFreq(x) {
-        return 440*Math.pow(2,x/312)-13;
+  });
+
+  //choose presets
+  $('#sound-presets').change(function () {
+    oscillator.type = ($('input[name=sound]:checked').val());
+  });
+
+  //  on button
+  $('#onButton').click(function (e) {
+    if (isOscOn) {
+      turnOff();
+    } else {
+      turnOn(e.clientX - $tCon.offset().left, e.clientY - $tCon.offset().top);
     }
-    
-    $('#theremincontrol').on("mousemove",function(e) {
-        
-        if (mute || !isOscOn) return;
-        
-        oscillator.frequency.value = getFreq(e.offsetX);
-        volume.gain.value = getVol(e.offsetY);/*700-cntrl area height*/
-        
-        console.log(e.offsetX + ', '+ e.offsetY + ', ' + oscillator.frequency.value);
-        
-    });
-    
-    $('#theremincontrol').on("mousedown",function(e) {
-        
-        if (!isOscOn) return;
-        volumeVal = volume.gain.value;
-        volume.gain.value = 0;
-        mute = true;
-    });
-    
-    $('#theremincontrol').on("mouseup",function(e) {
-        
-        if (!isOscOn) return;
-        volume.gain.value = getVol(e.offsetY);
-        oscillator.frequency.value = getFreq(e.offsetX);
-        mute = false;        
-    });
-                             
-    
-    $('#sound-presets').change(function() {
-        
-        oscillator.type = ($('input[name=sound]:checked').val());
-        
-    });
-    
-    $('#onButton').click(function(e) {
-        
-        if (isOscOn) {
-            volume.gain.value = 0;
-            mute = true;
-            isOscOn = false;
-        }
-        else {
-            volume.gain.value=getVol(e.offsetY);
-            mute = false;
-            isOscOn = true;
-        }
-    });
-})
+  });
+
+
+  $('#choose-range').change(setFreqScale);
+
+  $('#choose-root').change(setRoot);
+
+
+
+});
